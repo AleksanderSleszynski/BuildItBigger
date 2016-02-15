@@ -36,3 +36,17 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
 }
+
+task startServer(dependsOn: tasks.getByPath(':backend:appengineRun')){
+    finalizedBy 'runTest'
+    println 'startService'
+}
+
+task runTest(dependsOn: "test"){
+    println 'runTest'
+}
+
+task myTestTask (dependsOn: 'startServer'){
+    finalizedBy tasks.getByPath(':backend:appengineStop')
+    println 'myTestTask'
+}
