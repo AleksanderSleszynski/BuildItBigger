@@ -1,8 +1,11 @@
 package com.udacity.gradle.builditbigger;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.julain.myapplication.backend.myApi.MyApi;
 import com.example.julian.androidjokes.JokeActivity;
@@ -16,7 +19,8 @@ import java.io.IOException;
 public class EndpointAsyncTask extends AsyncTask<Context, Void, String>{
     private static MyApi myApiService = null;
     private EndpointAsyncTaskListener mListener = null;
-    private Context context;
+    private Context mContext;
+    private ProgressBar mProgressBar = null;
 
     @Override
     protected String doInBackground(Context... contexts) {
@@ -34,7 +38,7 @@ public class EndpointAsyncTask extends AsyncTask<Context, Void, String>{
             myApiService = builder.build();
         }
 
-        context = contexts[0];
+        mContext = contexts[0];
 
         try {
             return myApiService.sayJoke().execute().getData();
@@ -43,14 +47,37 @@ public class EndpointAsyncTask extends AsyncTask<Context, Void, String>{
         }
     }
 
+    public EndpointAsyncTask(Activity activity){
+        super();
+
+        if(activity != null){
+            mProgressBar = (ProgressBar) activity.findViewById(R.id.progress_bar);
+        }
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+
+        if(mProgressBar != null){
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+        if(mProgressBar != null){
+            mProgressBar.setVisibility(View.GONE);
+        }
+
         if(mListener != null) {
             mListener.onCompleted(s);
         } else {
-            Intent intent = new Intent(context, JokeActivity.class);
+            Intent intent = new Intent(mContext, JokeActivity.class);
             intent.putExtra(JokeActivity.EXTRA_KEY_JOKE, s);
-            context.startActivity(intent);
+            mContext.startActivity(intent);
         }
     }
 

@@ -22,4 +22,6 @@
         android:text="@string/button_text"
         android:onClick="tellJoke" />
 
+    <include layout="@layout/progress"/>
+
 </RelativeLayout>

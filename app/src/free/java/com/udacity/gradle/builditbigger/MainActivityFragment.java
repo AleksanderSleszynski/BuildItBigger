@@ -43,7 +43,7 @@ public class MainActivityFragment extends Fragment {
                 if(mInterstitialAd.isLoaded()){
                     mInterstitialAd.show();
                 } else {
-                    new EndpointAsyncTask().execute(getActivity());
+                    new EndpointAsyncTask(getActivity()).execute(getActivity());
                 }
             }
         });
@@ -55,7 +55,7 @@ public class MainActivityFragment extends Fragment {
 
                 requesInterstitial();
 
-                new EndpointAsyncTask().execute(getActivity());
+                new EndpointAsyncTask(getActivity()).execute(getActivity());
             }
         });
 
