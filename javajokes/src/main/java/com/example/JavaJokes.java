@@ -1,7 +1,7 @@
 package com.example;
 
 public class JavaJokes {
-    public String getJoke(){
+    public static String getJoke(){
         return "This is a tiny little joke";
     }
 }
