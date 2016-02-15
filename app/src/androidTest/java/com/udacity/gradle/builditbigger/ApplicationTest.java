@@ -21,7 +21,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     @Override
     protected void setUp() throws Exception {
-        mSignal = new CountDownLatch(COUNT_LATCH);
+        mSignal = new CountDownLatch(COUNT_LATCH); // Main thread wait for background thread.
         mTask = new EndpointAsyncTask();
     }
 
